@@ -1,8 +1,11 @@
 const express = require('express');
 const app = express();
+const {BlogPosts} = require('./models');
+
+BlogPosts.create('this is a blog post', 'today is going to be interesting', 'jk rowling');
 
 app.get('/blog-posts', function(req, res){
-    res.send('hello');
+   res.json(BlogPosts.get());
 })
 
 
