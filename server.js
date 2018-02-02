@@ -7,7 +7,8 @@ const jsonParser = bodyParser.json();
 const {BlogPosts} = require('./models');
 
 
-BlogPosts.create('this is a blog post', 'today is going to be interesting', 'jk rowling');
+BlogPosts.create('This is a blog post', 'Today is going to be interesting', 'J.K. Rowling');
+BlogPosts.create('Fight with the girlfriend', 'She got mad again but its going to be okay because they ended up making up in the evening.', 'David Titus');
 
 app.get('/blog-posts', function(req, res){
    res.json(BlogPosts.get());
@@ -25,6 +26,12 @@ app.post('/blog-posts', jsonParser, function(req, res) {
     }
     const newBlogPost = BlogPosts.create(req.body.title, req.body.content, req.body.author);
     res.status(201).json(newBlogPost); 
+});
+
+app.delete('/blog-posts/:id', function(req, res) {
+    BlogPosts.delete(req.params.id);
+    console.log(`Deleted blog post \`${req.params.id}\``);
+    res.status(204).end();
 });
 
 app.listen(8080, () => {
