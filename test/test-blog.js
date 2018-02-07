@@ -9,15 +9,24 @@ chai.use(chaiHttp);
 
 describe ('Blog Posts', function() {
 
+    // use before hook to run our server before the tests run
     before(function() {
+        // starts the server and returns a promise
+        // ensures server will be running before tests run
         return runServer();
     });
 
+    // use after hook to close our server after the tests run
     after(function() {
         return closeServer();
     });
 
     it('should list items on GET', function() {
+        // Usable through chai-http, giving us methods such as chai.request() that
+        // we can use to make arbitrary requests to a server, and then 
+        // assert about the results of our requests
+        // Using return because were working with asynchronous operations in Mocha tests & so
+        // we need to either return a Promise or call a done callback
         return chai.request(app)
             .get('/blog-posts')
             .then(function(res){
@@ -28,7 +37,7 @@ describe ('Blog Posts', function() {
 
                 res.body.forEach(function(item) {
                     item.should.be.a('object');
-                    item.should.include.keys('title', 'content', 'author');
+                    item.should.include.keys('id', 'title', 'content', 'author');
                 });
             });
     });
@@ -48,6 +57,8 @@ describe ('Blog Posts', function() {
                 res.body.should.be.a('object');
                 res.body.should.include.keys('id', 'title', 'content', 'author');
                 res.body.title.should.equal(newBlogPost.title);
+                res.body.content.should.equal(newBlogPost.content);
+                res.body.author.should.equal(newBlogPost.author);
             });
     });
 
