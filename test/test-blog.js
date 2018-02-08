@@ -48,6 +48,7 @@ describe ('Blog Posts', function() {
             content: 'Hopefully today will be better than yesterday!',
             author: 'Positive Man'
         };
+        
         return chai.request(app)
             .post('/blog-posts')
             .send(newBlogPost)
